@@ -1,0 +1,56 @@
+
+import boto3
+import os
+Import json
+
+s3 = boto3.client('s3')
+sns = boto3.client('sns')
+
+def lambda_handler(event, context):
+    try:
+        # Extract the bucket name from the event
+        bucket_name = event['detail']['resourceId']
+        print(f"Detected non-compliant S3 bucket: {bucket_name}")
+
+        # Block all public access at the bucket level
+        s3.put_public_access_block(
+            Bucket=bucket_name,
+            PublicAccessBlockConfiguration={
+                'BlockPublicAcls': True,
+                'IgnorePublicAcls': True,
+                'BlockPublicPolicy': True,
+                'RestrictPublicBuckets': True
+            }
+        )
+        print(f"Successfully blocked public access for bucket: {bucket_name}")
+
+        # Make all objects within the bucket private
+        response = s3.list_objects_v2(Bucket=bucket_name)
+        if 'Contents' in response:
+            for obj in response['Contents']:
+                print(f"Making object '{obj['Key']}' private...")
+                s3.put_object_acl(
+                    ACL='private',
+                    Bucket=bucket_name,
+                    Key=obj['Key']
+                )
+        
+        # Send a success notification
+        sns_topic_arn = os.environ['SNS_TOPIC_ARN']
+        message = f"Automated remediation successful! Public access was blocked on S3 bucket '{bucket_name}' and all objects were made private."
+        sns.publish(
+            TopicArn=sns_topic_arn,
+            Subject="S3 Security Remediation Success",
+            Message=message
+        )
+
+    except Exception as e:
+        print(f"Error during remediation: {e}")
+        # Send a failure notification
+        sns_topic_arn = os.environ['SNS_TOPIC_ARN']
+        message = f"Automated remediation failed for an S3 bucket. Error: {e}"
+        sns.publish(
+            TopicArn=sns_topic_arn,
+            Subject="S3 Security Remediation Failure",
+            Message=message
+        )
