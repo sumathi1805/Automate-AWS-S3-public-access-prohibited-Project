@@ -9,8 +9,7 @@ This project implement an automated remedian workflow to protect S3 bucket which
 * AWS Eventbridge
 * SNS
 
-![Automate-s3-public-remedian](https://github.com/user-attachments/assets/cdff4b1e-2c1e-4c34-adb6-126596618670)
-
+![Automate-s3-public-access-prohibited-project](https://github.com/user-attachments/assets/15c499d1-fc6b-41c3-a6b9-8b5fe47162c5)
 
 ## STEP 1: S3 setup
 * Created a new S3 bucket with  block public access 'disabled' to allow public access at bucket level.
