@@ -1,10 +1,10 @@
 # Automate-AWS-S3-public-access-prohibited-Project
-## 📌 Overview
+## Overview
 This project automatically detects and remediates publicly accessible S3 buckets using AWS Config, EventBridge, Lambda, and SNS.
 
 When a bucket becomes publicly accessible, it is flagged as **NON_COMPLIANT**, and an automated workflow removes public access and notifies the security team.
 
-## 🛠️ Technologies Used
+## Technologies Used
 * S3 
 * Lambda
 * IAM 
@@ -12,7 +12,7 @@ When a bucket becomes publicly accessible, it is flagged as **NON_COMPLIANT**, a
 * AWS Eventbridge
 * SNS
 
-## 🏗️ Architecture Workflow
+## Architecture Workflow
 
 1. S3 bucket becomes public  
 2. AWS Config detects non-compliance  
@@ -23,7 +23,7 @@ When a bucket becomes publicly accessible, it is flagged as **NON_COMPLIANT**, a
 
 ![Automate-s3-public-access-prohibited-project](https://github.com/user-attachments/assets/15c499d1-fc6b-41c3-a6b9-8b5fe47162c5)
 
-## ⚙️ Implementation Steps
+## Implementation Steps
 
 ### 🔹 Step 1: S3 Setup
 - Created an S3 bucket with public access enabled (for testing)
@@ -55,12 +55,24 @@ When a bucket becomes publicly accessible, it is flagged as **NON_COMPLIANT**, a
 - Created rule to detect **NON_COMPLIANT** S3 buckets
 - Triggered Lambda automatically for remediation
 
-## 🔑 Key Features
+## Key Features
 - Automated detection of public S3 buckets
 - Real-time remediation using Lambda
 - Event-driven architecture using EventBridge
 - Security alerts via SNS
 - Fully serverless solution
 
-## 🎯 Outcome
+## Outcome
 This project ensures that no S3 bucket remains publicly accessible by automatically enforcing security policies and notifying stakeholders in real time.
+
+## ⚠️ Challenges & Learnings
+
+### Challenges
+- Faced IAM permission issues while allowing Lambda to modify S3 bucket policies and object ACLs
+- Initially struggled to correctly capture NON_COMPLIANT events from AWS Config in EventBridge
+- Ensuring proper sequencing between detection (Config) and remediation (Lambda)
+
+### Learnings
+- Gained hands-on experience with event-driven architecture using AWS Config and EventBridge
+- Learned how to enforce security compliance automatically using Lambda
+- Improved understanding of S3 access control (bucket policies vs ACLs)
