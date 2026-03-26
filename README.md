@@ -14,14 +14,17 @@ When a bucket becomes publicly accessible, it is flagged as **NON_COMPLIANT**, a
 
 ## Architecture Workflow
 
-1. S3 bucket becomes public  
-2. AWS Config detects non-compliance  
-3. EventBridge triggers Lambda  
-4. Lambda removes public access  
-5. SNS sends notification  
+          S3 Bucket (Public Access)
+            ⬇
+          AWS Config detects NON_COMPLIANT
+            ⬇    
+          EventBridge triggers
+            ⬇          
+          Lambda blocks public access
+            ⬇
+          SNS sends alert
 
 
-![Automate-s3-public-access-prohibited-project](https://github.com/user-attachments/assets/15c499d1-fc6b-41c3-a6b9-8b5fe47162c5)
 
 ## Implementation Steps
 
@@ -62,8 +65,6 @@ When a bucket becomes publicly accessible, it is flagged as **NON_COMPLIANT**, a
 - Security alerts via SNS
 - Fully serverless solution
 
-## Outcome
-This project ensures that no S3 bucket remains publicly accessible by automatically enforcing security policies and notifying stakeholders in real time.
 
 ## ⚠️ Challenges & Learnings
 
@@ -76,3 +77,11 @@ This project ensures that no S3 bucket remains publicly accessible by automatica
 - Gained hands-on experience with event-driven architecture using AWS Config and EventBridge
 - Learned how to enforce security compliance automatically using Lambda
 - Improved understanding of S3 access control (bucket policies vs ACLs)
+
+
+![Automate-s3-public-access-prohibited-project](https://github.com/user-attachments/assets/15c499d1-fc6b-41c3-a6b9-8b5fe47162c5)
+
+## Outcome
+This project ensures that no S3 bucket remains publicly accessible by automatically enforcing security policies and notifying stakeholders in real time.
+
+
